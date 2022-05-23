@@ -21,7 +21,7 @@ func (k Cache) Get(key string) (string, bool) {
 	if !ok {
 		return "", false
 	}
-	if item.timer == 0 || time.Now().Before(item.timer) {
+	if item.timer.IsZero() || time.Now().Before(item.timer) {
 		return item.value, true
 	}
 	delete(k.storage, key)
@@ -29,7 +29,7 @@ func (k Cache) Get(key string) (string, bool) {
 }
 
 func (k Cache) Put(key, value string) {
-	k.storage[key] = item{value: value, timer:0}
+	k.storage[key] = item{value: value}
 	//помещает значение со связанным ключом в кеш. Значение, введенное с помощью этого метода, никогда не истекает (имеет бесконечный срок). 
 	//Ввод в существующий ключ должен перезаписать значение
 }
@@ -37,7 +37,7 @@ func (k Cache) Put(key, value string) {
 func (k Cache) Keys() []string {
 	var keys []string
 	for key, item := range k.box {
-		if item.timer == 0 || time.Now().Before(item.timer) {
+		if item.timer.IsZero() || time.Now().Before(item.timer) {
 			keys = append(keys, key)
 		}
 	}
