@@ -4,17 +4,17 @@ import (
 	"time"
 )
 
-type item struct {
+type Item struct {
 	value string
 	timer time.Time
 }
 
 type Cache struct {
-	storage map[string]item
+	storage map[string]Item
 }
 
 func NewCache() Cache {
-	storage := make(map[string]item)
+	storage := make(map[string]Item)
 	return Cache{storage: storage}
 }
 
@@ -31,7 +31,7 @@ func (k Cache) Get(key string) (string, bool) {
 }
 
 func (k Cache) Put(key, value string) {
-	k.storage[key] = item{value: value}
+	k.storage[key] = Item{value: value}
 }
 
 func (k Cache) Keys() []string {
@@ -45,5 +45,5 @@ func (k Cache) Keys() []string {
 }
 
 func (k Cache) PutTill(key, value string, deadline time.Time) {
-	k.storage[key] = item{value: value, timer: deadline}
+	k.storage[key] = Item{value: value, timer: deadline}
 }
